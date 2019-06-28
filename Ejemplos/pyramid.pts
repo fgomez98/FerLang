@@ -1,0 +1,16 @@
+start
+    var i = 1;
+    var j = 1;
+    var rows = 0;
+    put ("Enter a number of rows");
+    getnum ( rows );    
+    while ( i <= rows) {
+        j = 1;
+        while ( j <= i) {
+            put ("* ");
+            j++;
+        } 
+        i++;
+        put ("\n"); 
+    }
+end

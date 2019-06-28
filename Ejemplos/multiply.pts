@@ -1,0 +1,12 @@
+start
+    var num: decimal;
+    var value = 1.0;
+    let input = "Enter a number: ";
+    put("Lets multiply 1, enter 0 to stop\n");
+    do {
+        put("%s", input);
+        getdec(num);
+        value = value * num;
+        put("value now: %lf\n", value);
+    } while (value != 0.0);
+end

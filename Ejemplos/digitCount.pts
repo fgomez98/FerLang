@@ -1,0 +1,14 @@
+start
+    var x:number;
+    var c = 0;
+    put ("Enter an integer: ");
+    getnum(x);
+    if (x == 0) {
+	 put ("Number of digits: %d", 1);
+	}
+    while ( x != 0) {
+        x = x / 10;
+	 x ++;
+    }
+     put ("Number of digits: %d", c);
+end

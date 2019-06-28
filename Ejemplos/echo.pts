@@ -1,0 +1,7 @@
+start
+	var c:character;
+	while (true) {
+		getchar(c);
+		put ("%c", c);
+	}
+end
