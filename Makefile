@@ -2,12 +2,12 @@ LEX=scan.l
 YACC=syntax.y
 COMPILER=PataSucia
 
-.PHONY: clean	
+.PHONY: clean
 
-clean: 	
-	rm -rf $(COMPILER) lex.yy.c y.tab.c y.tab.h	
+clean:
+	rm -rf $(COMPILER) lex.yy.c y.tab.c y.tab.h
 
-all: 
+all:
 	yacc -d $(YACC)
 	lex $(LEX)
 	gcc -o $(COMPILER) lex.yy.c y.tab.c -ly
@@ -37,5 +37,7 @@ compileExamples:
 		# gcc -S Ejemplos/multiply.c -o Ejemplos/multiply.s
 	    gcc Ejemplos/multiply.c -o Ejemplos/multiply
 
-
-
+compileBenchmarks:
+	./$(COMPILER) < benchmarks/primesPTS.PTS > benchmarks/primesPTS.c
+	    gcc benchmarks/primesPTS.c -o benchmarks/primesPTS
+			gcc benchmarks/primesC.c -o benchmarks/primesC

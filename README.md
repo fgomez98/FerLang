@@ -17,3 +17,8 @@
   ```
   make compileExamples
   ```
+
+## Para compilar los benchmarks:
+  ```
+  make compileBenchmarks
+  ```

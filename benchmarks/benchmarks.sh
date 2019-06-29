@@ -1,0 +1,2 @@
+time ./primesC;
+time ./primesPTS;
