@@ -22,3 +22,8 @@
   ```
   make compileBenchmarks
   ```
+## Para correr los benchmarks:
+  ```
+  cd benchmarks
+  sh benchmarks.sh
+  ```
