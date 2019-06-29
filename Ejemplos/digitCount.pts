@@ -5,10 +5,11 @@ start
     getnum(x);
     if (x == 0) {
 	 put ("Number of digits: %d", 1);
-	}
-    while ( x != 0) {
-        x = x / 10;
-	 x ++;
+	} else {
+        while ( x != 0) {
+            x = x / 10;
+	        x ++;
+        }
+        put ("Number of digits: %d", c);
     }
-     put ("Number of digits: %d", c);
 end
