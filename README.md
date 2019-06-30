@@ -17,15 +17,15 @@
   ```
   make examples
   ```
-## Para intertar compilar con error de variable inexistente:
+## Para intentar compilar con error de variable inexistente:
   ```
   make inexistentVarError
   ```
-## Para intertar compilar con error de variable redefinida:
+## Para intentar compilar con error de variable redefinida:
   ```
   make redefinitionError
   ```
-## Para intertar compilar con error de tipos en asignación a variable:
+## Para intentar compilar con error de tipos en asignación a variable:
   ```
   make wrongTypesError
   ```
