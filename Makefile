@@ -8,7 +8,8 @@ clean:
 	rm -rf $(COMPILER) lex.yy.c y.tab.c y.tab.h
 	rm -rf Ejemplos/redefinition.c  Ejemplos/inexistentVar.c  Ejemplos/wrongTypes.c
 	rm -rf Ejemplos/factorial.c  Ejemplos/echo.c Ejemplos/pyramid.c Ejemplos/digitCount.c Ejemplos/primeNumbers.c Ejemplos/multiply.c
-	rm -rf  Ejemplos/factorial  Ejemplos/echo Ejemplos/pyramid Ejemplos/digitCount Ejemplos/primeNumbers Ejemplos/multiply
+	rm -rf Ejemplos/factorial  Ejemplos/echo Ejemplos/pyramid Ejemplos/digitCount Ejemplos/primeNumbers Ejemplos/multiply
+	rm -rf benchmarks/primesFLang.c benchmarks/primesC benchmarks/primesFLang
 
 all:
 	yacc -d $(YACC)
