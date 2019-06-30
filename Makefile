@@ -4,13 +4,13 @@ COMPILER=FerLang
 
 .PHONY: clean
 
-clean: 	
+clean:
 	rm -rf $(COMPILER) lex.yy.c y.tab.c y.tab.h
 	rm -rf Ejemplos/redefinition.c  Ejemplos/inexistentVar.c  Ejemplos/wrongTypes.c
 	rm -rf Ejemplos/factorial.c  Ejemplos/echo.c Ejemplos/pyramid.c Ejemplos/digitCount.c Ejemplos/primeNumbers.c Ejemplos/multiply.c
 	rm -rf  Ejemplos/factorial  Ejemplos/echo Ejemplos/pyramid Ejemplos/digitCount Ejemplos/primeNumbers Ejemplos/multiply
 
-all: 
+all:
 	yacc -d $(YACC)
 	lex $(LEX)
 	gcc -o $(COMPILER) lex.yy.c y.tab.c hashmap.c -ly
@@ -48,3 +48,8 @@ examples:
 	./$(COMPILER) < Ejemplos/multiply.pts > Ejemplos/multiply.c
 		# gcc -S Ejemplos/multiply.c -o Ejemplos/multiply.s
 	    gcc Ejemplos/multiply.c -o Ejemplos/multiply
+
+compileBenchmarks:
+	./$(COMPILER) < benchmarks/primesPTS.PTS > benchmarks/primesPTS.c
+	    gcc benchmarks/primesPTS.c -o benchmarks/primesPTS
+			gcc benchmarks/primesC.c -o benchmarks/primesC

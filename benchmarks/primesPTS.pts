@@ -1,0 +1,15 @@
+start
+  var i = 1;
+  var upper = 500000;
+  var j : number;
+  while (i < upper) {
+      j = 2;
+      while (j <= i/2) {
+        if(i % j == 0) {
+            stop;
+         }
+        j++;
+      }
+      i++;
+  }
+end
