@@ -1,18 +1,30 @@
 LEX=scan.l
 YACC=syntax.y
-COMPILER=PataSucia
+COMPILER=FerLang
 
-.PHONY: clean	
+.PHONY: clean
 
 clean: 	
-	rm -rf $(COMPILER) lex.yy.c y.tab.c y.tab.h	
+	rm -rf $(COMPILER) lex.yy.c y.tab.c y.tab.h
+	rm -rf Ejemplos/redefinition.c  Ejemplos/inexistentVar.c  Ejemplos/wrongTypes.c
+	rm -rf Ejemplos/factorial.c  Ejemplos/echo.c Ejemplos/pyramid.c Ejemplos/digitCount.c Ejemplos/primeNumbers.c Ejemplos/multiply.c
+	rm -rf  Ejemplos/factorial  Ejemplos/echo Ejemplos/pyramid Ejemplos/digitCount Ejemplos/primeNumbers Ejemplos/multiply
 
 all: 
 	yacc -d $(YACC)
 	lex $(LEX)
-	gcc -o $(COMPILER) lex.yy.c y.tab.c -ly
+	gcc -o $(COMPILER) lex.yy.c y.tab.c hashmap.c -ly
 
-compileExamples:
+redefinitionError:
+	./$(COMPILER) < Ejemplos/redefinition.pts > Ejemplos/redefinition.c
+
+inexistentVarError:
+	./$(COMPILER) < Ejemplos/inexistentVar.pts > Ejemplos/inexistentVar.c
+
+wrongTypesError:
+	./$(COMPILER) < Ejemplos/wrongTypes.pts > Ejemplos/wrongTypes.c
+
+examples:
 	./$(COMPILER) < Ejemplos/factorial.pts > Ejemplos/factorial.c
 	    # gcc -S Ejemplos/factorial.c -o Ejemplos/factorial.s
 	    gcc Ejemplos/factorial.c -o Ejemplos/factorial
@@ -36,6 +48,3 @@ compileExamples:
 	./$(COMPILER) < Ejemplos/multiply.pts > Ejemplos/multiply.c
 		# gcc -S Ejemplos/multiply.c -o Ejemplos/multiply.s
 	    gcc Ejemplos/multiply.c -o Ejemplos/multiply
-
-
-

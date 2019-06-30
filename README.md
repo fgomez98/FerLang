@@ -1,6 +1,6 @@
-# PataSucia
+# FerLang
 ### Utilizar el comando cd para situarse en el directorio y ejecutar:
-## Para compilar PataSucia:
+## Para compilar FerLang:
   ```
   make all
   ```

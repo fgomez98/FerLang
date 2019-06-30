@@ -2,7 +2,7 @@ start
     # esto es un comentario #
     var x = 0;
     var y = 1;
-    let text = "Enter a number";
+    let text = "Enter a number: ";
     put ("%s",  text);
 	getnum ( x );
 	var num = 0;

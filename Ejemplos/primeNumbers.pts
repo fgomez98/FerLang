@@ -1,13 +1,13 @@
 start
   var num1 : number;
-	var num2 : number;
+  var num2 : number;
   var i = 1;
   
-  put ("Prime numbers in range\nEnter lower bound number:");
-	getnum (num1);
-  put ("Enter lower bound number:");
+  put ("Prime numbers in range\nEnter lower bound number: ");
+  getnum (num1);
+  put ("Enter upper bound number: ");
   getnum (num2);
-	put ("Prime numbers:\n");
+  put ("Prime numbers:\n");
 	
   i = i + num1;
   var j : number;
@@ -16,14 +16,14 @@ start
       flag = 0;
       j = 2;
       while (j <= i/2) {
-        if(i % j == 0) {
-            flag = 1;
-            stop;
-         }
-        j++;
+        	if(i % j == 0) {
+            	flag = 1;
+            	stop;
+         	}
+        	j++;
       }
       if(flag == 0) {
-         put("%d\n",i);
+         	put("%d\n",i);
       }
       i++;
   }

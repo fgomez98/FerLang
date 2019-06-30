@@ -1,0 +1,5 @@
+start
+    var x:number;
+   	var y:string = "hola mundo";
+    x = y;
+end

@@ -4,12 +4,12 @@ start
     put ("Enter an integer: ");
     getnum(x);
     if (x == 0) {
-	 put ("Number of digits: %d", 1);
+	 put ("Number of digits: %d\n", 1);
 	} else {
         while ( x != 0) {
             x = x / 10;
-	        x ++;
+	        c ++;
         }
-        put ("Number of digits: %d", c);
+        put ("Number of digits: %d\n", c);
     }
 end

@@ -1,0 +1,4 @@
+start
+    var x:number = 65;
+    put ("%d", y);
+end

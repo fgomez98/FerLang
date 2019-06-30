@@ -1,10 +1,23 @@
 %{
 #include <stdio.h>
+#include <string.h>
+#include "hashmap.h"
+
+static char * _CHAR_ = "char";
+static char * _INTEGER_ = "integer";
+static char * _DOUBLE_ = "double";
+static char * _STRING_ = "string";
+
+void add_var(char * varname, char * type);
+void check_types(char * varname);
 void yyerror(const char * c);
 int yylex();
 extern int yylineno;
 extern char *yytext;
-
+static map_t map;
+static char * current_varname;
+static char * current_type;
+static int assign_flag;
 %}
 
 %union 
@@ -66,28 +79,28 @@ variables : variable declaration
           | literal  declaration
           ;
 
-declaration : VAR_NAME ASSIGN INTEGER                 { printf("int %s = %d", $1, $3); }
-            | VAR_NAME ASSIGN STRING                  { printf("char * %s = %s", $1, $3); }
-            | VAR_NAME ASSIGN DOUBLE                  { printf("double %s = %lf", $1, $3); }
-            | VAR_NAME ASSIGN CHAR                    { printf("char %s = %d", $1, $3); }
-            | VAR_NAME COLON T_NUMBER ASSIGN INTEGER  { printf("int %s = %d", $1, $5); }
-            | VAR_NAME COLON T_STRING ASSIGN STRING   { printf("char * %s = %s", $1, $5); }
-            | VAR_NAME COLON T_DECIMAL ASSIGN DOUBLE  { printf("double %s = %lf", $1, $5); }
-            | VAR_NAME COLON T_CHAR ASSIGN CHAR       { printf("char %s = %d", $1, $5); }  /*guardamos los caracteres como si fuesen numeros*/
+declaration : VAR_NAME ASSIGN INTEGER                 { add_var($1, _INTEGER_);printf("int %s = %d", $1, $3); }
+            | VAR_NAME ASSIGN STRING                  { add_var($1, _STRING_);printf("char * %s = %s", $1, $3); }
+            | VAR_NAME ASSIGN DOUBLE                  { add_var($1, _DOUBLE_);printf("double %s = %lf", $1, $3); }
+            | VAR_NAME ASSIGN CHAR                    { add_var($1, _CHAR_);printf("char %s = %d", $1, $3); }
+            | VAR_NAME COLON T_NUMBER ASSIGN INTEGER  { add_var($1, _INTEGER_);printf("int %s = %d", $1, $5); }
+            | VAR_NAME COLON T_STRING ASSIGN STRING   { add_var($1, _STRING_);printf("char * %s = %s", $1, $5); }
+            | VAR_NAME COLON T_DECIMAL ASSIGN DOUBLE  { add_var($1, _DOUBLE_);printf("double %s = %lf", $1, $5); }
+            | VAR_NAME COLON T_CHAR ASSIGN CHAR       { add_var($1, _CHAR_);printf("char %s = %d", $1, $5); }  /*guardamos los caracteres como si fuesen numeros*/
             ;
 
-definition : VAR_NAME COLON T_NUMBER    { printf("int %s", $1); }
-           | VAR_NAME COLON T_STRING    { printf("char * %s", $1); }
-           | VAR_NAME COLON T_DECIMAL   { printf("double %s", $1); }
-           | VAR_NAME COLON T_CHAR      { printf("char %s", $1); }
+definition : VAR_NAME COLON T_NUMBER    { add_var($1, _INTEGER_);printf("int %s", $1); }
+           | VAR_NAME COLON T_STRING    { add_var($1, _STRING_);printf("char * %s", $1); }
+           | VAR_NAME COLON T_DECIMAL   { add_var($1, _DOUBLE_);printf("double %s", $1); }
+           | VAR_NAME COLON T_CHAR      { add_var($1, _CHAR_);printf("char %s", $1); }
            ;
 
 flow_control : if open_parenthesis boolean_exp close_parenthesis open_block statements close_block
-		 	 | if open_parenthesis boolean_exp close_parenthesis open_block statements close_block else open_block statements close_block;
-			 | do open_block statements close_block while open_parenthesis boolean_exp close_parenthesis delimiter
-			 | while open_parenthesis boolean_exp close_parenthesis open_block statements close_block
+	     | if open_parenthesis boolean_exp close_parenthesis open_block statements close_block else open_block statements close_block;
+	     | do open_block statements close_block while open_parenthesis boolean_exp close_parenthesis delimiter
+	     | while open_parenthesis boolean_exp close_parenthesis open_block statements close_block
              | stop delimiter
-			 ;
+	     ;
 
 boolean_exp : true
             | false
@@ -131,39 +144,44 @@ end: END{
 };
 
 do_print: PRINT {
-    printf("printf");
+    	printf("printf");
 };
 
 if : IF {
-    printf("if");
+    	printf("if");
 };
 
 else : ELSE {
-    printf("else");
+    	printf("else");
 };
 
 do : DO {
-    printf("do");
+    	printf("do");
 };
 
 while : WHILE {
-    printf("while");
+    	printf("while");
 };
 
 string: STRING {
-    printf("%s",$1);
+	if (assign_flag && current_type != NULL) {
+		if (strcmp(_STRING_, current_type) != 0) {
+               		yyerror("uncompatible types");
+               	}
+	}
+    	printf("%s",$1);
 };
 
 integer: INTEGER {
-    printf("%d",$1);
+    	printf("%d",$1);
 };
 
 character: CHAR {
-    printf("%d",$1);
+    	printf("%d",$1);
 };
 
 double: DOUBLE {
-    printf("%lf",$1);
+    	printf("%lf",$1);
 };
 
 variable : VAR {
@@ -171,31 +189,44 @@ variable : VAR {
 };
 
 literal : LIT {
-    printf("const ");
+    	printf("const ");
 };
 
 true: TRUE{
-    printf(" 1 ");
+    	printf(" 1 ");
 };
 
 false: FALSE{
-    printf(" 0 ");
+    	printf(" 0 ");
 };
 
 var_name : VAR_NAME {
-    printf("%s", $1);
+	char * aux;
+    	if (hashmap_get(map, $1, (void**)&aux) == MAP_OK) {
+    		if (current_varname == NULL) {
+    			current_varname = $1;
+			current_type = aux;
+		}
+		if (assign_flag) {
+			check_types($1);
+                }
+    	} else {
+    		yyerror("inexsistant variable");
+        }
+    	printf("%s", $1);
 };
 
 assign: ASSIGN {
-    printf(" = ");
+	assign_flag = 1;
+	printf(" = ");
 };
 
 add_add : ADD_ADD {
-    printf("++");
+    	printf("++");
 };
 
 sub_sub : SUB_SUB {
-    printf("--");
+    	printf("--");
 };
 
 or: OR {
@@ -211,7 +242,7 @@ mul: MUL {
 };
 
 div: DIV {
-    printf(" / ");
+   	printf(" / ");
 };
 
 add: ADD {
@@ -255,6 +286,9 @@ mod: MOD {
 };
 
 delimiter: DELIMITER {
+	current_varname = NULL;
+	current_type = NULL;
+	assign_flag = 0;
 	printf(";");
 };
 
@@ -279,18 +313,43 @@ coma : COMA {
 };
 
 stop : STOP {
-    printf("break");
+    	printf("break");
 };
 
 %%
 
+void add_var(char * varname, char * type) {
+	char * aux;
+	if (hashmap_get(map, varname, (void**)&aux) == MAP_OK) {
+    		yyerror("redefinition of variable");
+  	} else {
+	  	hashmap_put(map, varname, type);
+  	}
+}
+
+void check_types(char * varname) {
+	char * aux;
+	if (hashmap_get(map, varname, (void**)&aux) == MAP_OK) {
+		if (strcmp(aux, current_type) != 0) {
+			yyerror("uncompatible types");
+		}
+	} else {
+		yyerror("inexsistant variable");
+	}
+}
+
 int main (){
+   	map = hashmap_new();
+   	current_varname = NULL;
+        current_type = NULL;
+        assign_flag = 0;
 	yyparse();
+	hashmap_free(map);
 }
 
 void yyerror(const char * c)
 {
 	fflush(stdout);
 	fprintf(stderr, "Error: %s at line %d\n", c, yylineno);
-	fprintf(stderr, "Pata sucia does not expect '%s'\n", yytext);
+	fprintf(stderr, "FerLang sucia does not expect '%s'\n", yytext);
 }
