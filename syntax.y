@@ -351,5 +351,5 @@ void yyerror(const char * c)
 {
 	fflush(stdout);
 	fprintf(stderr, "Error: %s at line %d\n", c, yylineno);
-	fprintf(stderr, "FerLang sucia does not expect '%s'\n", yytext);
+	fprintf(stderr, "FerLang does not expect '%s'\n", yytext);
 }

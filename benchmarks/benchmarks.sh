@@ -1,2 +1,2 @@
 time ./primesC;
-time ./primesPTS;
+time ./primesFLang;

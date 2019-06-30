@@ -16,40 +16,40 @@ all:
 	gcc -o $(COMPILER) lex.yy.c y.tab.c hashmap.c -ly
 
 redefinitionError:
-	./$(COMPILER) < Ejemplos/redefinition.pts > Ejemplos/redefinition.c
+	./$(COMPILER) < Ejemplos/redefinition.fer > Ejemplos/redefinition.c
 
 inexistentVarError:
-	./$(COMPILER) < Ejemplos/inexistentVar.pts > Ejemplos/inexistentVar.c
+	./$(COMPILER) < Ejemplos/inexistentVar.fer > Ejemplos/inexistentVar.c
 
 wrongTypesError:
-	./$(COMPILER) < Ejemplos/wrongTypes.pts > Ejemplos/wrongTypes.c
+	./$(COMPILER) < Ejemplos/wrongTypes.fer > Ejemplos/wrongTypes.c
 
 examples:
-	./$(COMPILER) < Ejemplos/factorial.pts > Ejemplos/factorial.c
+	./$(COMPILER) < Ejemplos/factorial.fer > Ejemplos/factorial.c
 	    # gcc -S Ejemplos/factorial.c -o Ejemplos/factorial.s
 	    gcc Ejemplos/factorial.c -o Ejemplos/factorial
 
-	./$(COMPILER) < Ejemplos/echo.pts > Ejemplos/echo.c
+	./$(COMPILER) < Ejemplos/echo.fer > Ejemplos/echo.c
 		# gcc -S Ejemplos/echo.c -o Ejemplos/echo.s
 	    gcc Ejemplos/echo.c -o Ejemplos/echo
 
-	./$(COMPILER) < Ejemplos/pyramid.pts > Ejemplos/pyramid.c
+	./$(COMPILER) < Ejemplos/pyramid.fer > Ejemplos/pyramid.c
 		# gcc -S Ejemplos/pyramid.c -o Ejemplos/pyramid.s
 	    gcc Ejemplos/pyramid.c -o Ejemplos/pyramid
 
-	./$(COMPILER) < Ejemplos/digitCount.pts > Ejemplos/digitCount.c
+	./$(COMPILER) < Ejemplos/digitCount.fer > Ejemplos/digitCount.c
 		# gcc -S Ejemplos/digitCount.c -o Ejemplos/digitCount.s
 	    gcc Ejemplos/digitCount.c -o Ejemplos/digitCount
 
-	./$(COMPILER) < Ejemplos/primeNumbers.pts > Ejemplos/primeNumbers.c
+	./$(COMPILER) < Ejemplos/primeNumbers.fer > Ejemplos/primeNumbers.c
 		# gcc -S Ejemplos/primeNumbers.c -o Ejemplos/primeNumbers.s
 	    gcc Ejemplos/primeNumbers.c -o Ejemplos/primeNumbers
 
-	./$(COMPILER) < Ejemplos/multiply.pts > Ejemplos/multiply.c
+	./$(COMPILER) < Ejemplos/multiply.fer > Ejemplos/multiply.c
 		# gcc -S Ejemplos/multiply.c -o Ejemplos/multiply.s
 	    gcc Ejemplos/multiply.c -o Ejemplos/multiply
 
 compileBenchmarks:
-	./$(COMPILER) < benchmarks/primesPTS.PTS > benchmarks/primesPTS.c
-	    gcc benchmarks/primesPTS.c -o benchmarks/primesPTS
+	./$(COMPILER) < benchmarks/primesFLang.fer > benchmarks/primesFLang.c
+	    gcc benchmarks/primesFLang.c -o benchmarks/primesFLang
 			gcc benchmarks/primesC.c -o benchmarks/primesC
