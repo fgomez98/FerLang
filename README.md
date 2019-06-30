@@ -15,7 +15,7 @@
   Se creara en el directorio donde se encuentra el .fer un archivo ejecutable con el mismo nombre que el del archivo codigo fuente
 ## Para compilar los Ejemplos:
   ```
-  make compileExamples
+  make examples
   ```
 ## Para intertar compilar con error de variable inexistente:
   ```
